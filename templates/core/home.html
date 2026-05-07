@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="relative overflow-hidden bg-ticket-gradient text-white">
+  {# Dekoratif radial overlay #}
+  <div class="absolute inset-0 bg-hero-radial opacity-60 pointer-events-none"></div>
+
+  {# Dekoratif yüzen şekiller #}
+  <div class="absolute top-10 right-10 w-64 h-64 rounded-full bg-white/5 blur-3xl animate-float pointer-events-none"></div>
+  <div class="absolute bottom-10 left-10 w-48 h-48 rounded-full bg-accent-500/10 blur-2xl animate-float pointer-events-none" style="animation-delay: -3s;"></div>
+  <div class="absolute top-1/2 right-1/4 w-32 h-32 rounded-full bg-primary-300/10 blur-xl animate-float pointer-events-none" style="animation-delay: -1.5s;"></div>
+
+  <div class="relative container mx-auto px-4 sm:px-6 py-20 md:py-28 lg:py-36">
+    <div class="max-w-3xl animate-fade-in-up">
+      {# Badge #}
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold uppercase tracking-wider ring-1 ring-white/20">
+        <span class="w-2 h-2 rounded-full bg-accent-400 animate-pulse"></span>
+        Yeni dönem etkinlikleri yayında
+      </span>
+
+      {# Başlık #}
+      <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.1] tracking-tight">
+        SOLD-OUT'a<br>
+        <span class="text-accent-300">Hoş Geldin</span>
+      </h1>
+
+      {# Açıklama #}
+      <p class="mt-6 text-lg sm:text-xl text-white/85 max-w-2xl leading-relaxed">
+        Konser, tiyatro, spor ve festival biletlerini tek tıkla satın al.
+        Kaçırmak istemediğin etkinlikleri bul, bilet al, keyfini çıkar.
+      </p>
+
+      {# CTA butonları #}
+      <div class="mt-10 flex flex-col sm:flex-row gap-4">
+        <a href="#featured"
+           class="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl
+                  bg-accent-500 hover:bg-accent-600 text-white font-bold text-base
+                  shadow-accent hover:shadow-xl
+                  transition-all duration-300 hover:-translate-y-0.5"
+           id="cta-explore">
+          Etkinlikleri Keşfet
+          <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </a>
+        <a href="#nasil-calisir"
+           class="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl
+                  bg-white/10 hover:bg-white/20 text-white font-bold text-base
+                  ring-1 ring-white/25 backdrop-blur-sm
+                  transition-all duration-300 hover:-translate-y-0.5"
+           id="cta-how">
+          Nasıl Çalışır?
+        </a>
+      </div>
+
+      {# İstatistikler #}
+      <div class="mt-14 flex flex-wrap gap-8 sm:gap-12 border-t border-white/15 pt-8">
+        <div>
+          <p class="text-3xl sm:text-4xl font-black">500+</p>
+          <p class="text-sm text-white/60 mt-1">Aktif Etkinlik</p>
+        </div>
+        <div>
+          <p class="text-3xl sm:text-4xl font-black">50K+</p>
+          <p class="text-sm text-white/60 mt-1">Mutlu Müşteri</p>
+        </div>
+        <div>
+          <p class="text-3xl sm:text-4xl font-black">120+</p>
+          <p class="text-sm text-white/60 mt-1">Şehir</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Alt dalga #}
+  <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+    <svg class="relative block w-full h-12 sm:h-16" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="rgba(249,250,251,1)" opacity=".8"></path>
+      <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="rgba(249,250,251,1)" opacity=".5"></path>
+      <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="rgba(249,250,251,1)"></path>
+    </svg>
+  </div>
+</section>
+
+
+<!-- Öne çıkan etkinlikler -->
+<section id="featured" class="container mx-auto px-4 sm:px-6 py-16 lg:py-24">
+  <div class="flex items-end justify-between mb-12">
+    <div>
+      <span class="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-semibold uppercase tracking-wider mb-3">Popüler</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">Öne Çıkan Etkinlikler</h2>
+      <p class="mt-2 text-gray-500 max-w-lg">Bu hafta en çok ilgi gören seçkiler. Yerini ayırt, anını yakala.</p>
+    </div>
+    <a href="{% url 'events:list' %}" class="hidden sm:inline-flex items-center gap-1.5 text-primary-700 font-semibold hover:text-primary-800 group transition-colors" id="btn-see-all">
+      Tümünü Gör
+      <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for event in featured_events %}
+      {% include "events/partials/_event_card.html" with event=event %}
+    {% empty %}
+      <p class="col-span-full text-center text-gray-400 py-12">Henüz öne çıkan etkinlik yok.</p>
+    {% endfor %}
+  </div>
+
+  {# Mobil "Tümünü Gör" #}
+  <div class="mt-8 text-center sm:hidden">
+    <a href="{% url 'events:list' %}" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-primary-700 bg-primary-50 hover:bg-primary-100 transition-colors">
+      Tüm Etkinlikleri Gör
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+
+<!-- Nasıl çalışır -->
+<section id="nasil-calisir" class="bg-ticket-gradient-soft">
+  <div class="container mx-auto px-4 sm:px-6 py-16 lg:py-24">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-semibold uppercase tracking-wider mb-3">Kolay Kullanım</span>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">Nasıl Çalışır?</h2>
+      <p class="mt-3 text-gray-500">Üç basit adımda biletini al, etkinliğin keyfini çıkar.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {# Adım 1 #}
+      <div class="relative bg-white rounded-2xl p-8 ring-1 ring-gray-200/80 hover:ring-primary-300 hover:shadow-ticket transition-all duration-300 hover:-translate-y-1 group" id="step-1">
+        <div class="w-14 h-14 rounded-2xl bg-ticket-gradient text-white font-black text-xl flex items-center justify-center shadow-ticket group-hover:shadow-ticket-lg transition-shadow">
+          1
+        </div>
+        <h3 class="mt-5 text-xl font-bold text-gray-900">Etkinlik Seç</h3>
+        <p class="mt-3 text-sm text-gray-500 leading-relaxed">
+          Konser, tiyatro, spor veya festival kategorilerinden ilgini çeken etkinliği kolayca bul.
+        </p>
+        {# Bağlantı çizgisi (md+) #}
+        <div class="hidden md:block absolute top-14 -right-4 w-8 border-t-2 border-dashed border-primary-200"></div>
+      </div>
+
+      {# Adım 2 #}
+      <div class="relative bg-white rounded-2xl p-8 ring-1 ring-gray-200/80 hover:ring-primary-300 hover:shadow-ticket transition-all duration-300 hover:-translate-y-1 group" id="step-2">
+        <div class="w-14 h-14 rounded-2xl bg-ticket-gradient text-white font-black text-xl flex items-center justify-center shadow-ticket group-hover:shadow-ticket-lg transition-shadow">
+          2
+        </div>
+        <h3 class="mt-5 text-xl font-bold text-gray-900">Sepete Ekle</h3>
+        <p class="mt-3 text-sm text-gray-500 leading-relaxed">
+          İstediğin sayıda bileti sepetine ekle. Detayları kontrol et, hazır olduğunda devam et.
+        </p>
+        <div class="hidden md:block absolute top-14 -right-4 w-8 border-t-2 border-dashed border-primary-200"></div>
+      </div>
+
+      {# Adım 3 #}
+      <div class="relative bg-white rounded-2xl p-8 ring-1 ring-gray-200/80 hover:ring-accent-300 hover:shadow-accent transition-all duration-300 hover:-translate-y-1 group" id="step-3">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-500 to-accent-600 text-white font-black text-xl flex items-center justify-center shadow-accent group-hover:shadow-xl transition-shadow">
+          3
+        </div>
+        <h3 class="mt-5 text-xl font-bold text-gray-900">Güvenle Öde</h3>
+        <p class="mt-3 text-sm text-gray-500 leading-relaxed">
+          Güvenli ödeme simülasyonu ile siparişini tamamla, bilet bilgin e-postana ulaşsın.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Kategoriler -->
+<section class="container mx-auto px-4 sm:px-6 py-16 lg:py-24" id="categories-section">
+  <div class="text-center max-w-2xl mx-auto mb-14">
+    <span class="inline-block px-3 py-1 rounded-full bg-accent-100 text-accent-700 text-xs font-semibold uppercase tracking-wider mb-3">Keşfet</span>
+    <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900">Kategoriler</h2>
+    <p class="mt-3 text-gray-500">İlgi alanına göre etkinlikleri filtrele.</p>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+    {# Konser #}
+    <a href="{% url 'events:by_category' 'konser' %}" class="group flex flex-col items-center gap-4 p-6 rounded-2xl bg-white ring-1 ring-gray-200/80
+                      hover:ring-pink-300 hover:bg-pink-50/50 hover:shadow-lg
+                      transition-all duration-300 hover:-translate-y-1">
+      <span class="w-16 h-16 rounded-2xl bg-pink-100 text-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">🎵</span>
+      <span class="text-sm font-bold text-gray-700 group-hover:text-pink-700 transition-colors">Konser</span>
+    </a>
+
+    {# Tiyatro #}
+    <a href="{% url 'events:by_category' 'tiyatro' %}" class="group flex flex-col items-center gap-4 p-6 rounded-2xl bg-white ring-1 ring-gray-200/80
+                      hover:ring-purple-300 hover:bg-purple-50/50 hover:shadow-lg
+                      transition-all duration-300 hover:-translate-y-1">
+      <span class="w-16 h-16 rounded-2xl bg-purple-100 text-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">🎭</span>
+      <span class="text-sm font-bold text-gray-700 group-hover:text-purple-700 transition-colors">Tiyatro</span>
+    </a>
+
+    {# Spor #}
+    <a href="{% url 'events:by_category' 'spor' %}" class="group flex flex-col items-center gap-4 p-6 rounded-2xl bg-white ring-1 ring-gray-200/80
+                      hover:ring-green-300 hover:bg-green-50/50 hover:shadow-lg
+                      transition-all duration-300 hover:-translate-y-1">
+      <span class="w-16 h-16 rounded-2xl bg-green-100 text-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">⚽</span>
+      <span class="text-sm font-bold text-gray-700 group-hover:text-green-700 transition-colors">Spor</span>
+    </a>
+
+    {# Festival #}
+    <a href="{% url 'events:by_category' 'festival' %}" class="group flex flex-col items-center gap-4 p-6 rounded-2xl bg-white ring-1 ring-gray-200/80
+                      hover:ring-amber-300 hover:bg-amber-50/50 hover:shadow-lg
+                      transition-all duration-300 hover:-translate-y-1">
+      <span class="w-16 h-16 rounded-2xl bg-amber-100 text-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">🎪</span>
+      <span class="text-sm font-bold text-gray-700 group-hover:text-amber-700 transition-colors">Festival</span>
+    </a>
+
+    {# Atölye #}
+    <a href="{% url 'events:by_category' 'atolye' %}" class="group flex flex-col items-center gap-4 p-6 rounded-2xl bg-white ring-1 ring-gray-200/80
+                      hover:ring-blue-300 hover:bg-blue-50/50 hover:shadow-lg
+                      transition-all duration-300 hover:-translate-y-1 col-span-2 sm:col-span-1">
+      <span class="w-16 h-16 rounded-2xl bg-blue-100 text-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">🎨</span>
+      <span class="text-sm font-bold text-gray-700 group-hover:text-blue-700 transition-colors">Atölye</span>
+    </a>
+  </div>
+</section>
+
+
+<!-- CTA alt banner -->
+<section class="container mx-auto px-4 sm:px-6 pb-16 lg:pb-24">
+  <div class="relative overflow-hidden rounded-3xl bg-ticket-gradient-dark text-white p-10 sm:p-14 lg:p-20">
+    <div class="absolute inset-0 bg-hero-radial opacity-40 pointer-events-none"></div>
+    <div class="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-accent-500/15 blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-10 -left-10 w-48 h-48 rounded-full bg-primary-400/20 blur-2xl pointer-events-none"></div>
+
+    <div class="relative max-w-2xl">
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black leading-tight">
+        Hayalindeki etkinliğe <span class="text-accent-300">bir tık</span> uzaktasın
+      </h2>
+      <p class="mt-4 text-lg text-white/75 max-w-lg">
+        Hemen üye ol, sana özel fırsatlardan haberdar ol ve biletini güvence altına al.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4">
+        <a href="{% url 'users:register' %}"
+           class="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl
+                  bg-accent-500 hover:bg-accent-600 text-white font-bold
+                  shadow-accent hover:shadow-xl
+                  transition-all duration-300 hover:-translate-y-0.5"
+           id="cta-register">
+          Hemen Kayıt Ol
+          <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+Merhaba {{ username }},
+
+SOLD-OUT platformuna başarıyla kayıt oldun! En güzel etkinliklere artık sadece birkaç tık uzaklıktasın.
+
+Hemen şimdi güncel etkinlikleri incelemeye başla:
+{{ site_url }}
+
+Sevgilerle,
+SOLD-OUT Ekibi

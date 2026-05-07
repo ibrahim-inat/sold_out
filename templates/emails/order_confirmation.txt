@@ -1,0 +1,24 @@
+Siparişiniz Başarıyla Onaylandı!
+
+Merhaba {{ full_name }},
+
+Siparişin başarıyla alındı ve ödemen onaylandı.
+
+SİPARİŞ NUMARASI: {{ order_number }}
+TOPLAM TUTAR: ₺{{ order.total_price }}
+
+BİLETLERİNİZ:
+--------------------------------------------------
+{% for ticket in tickets %}
+* {{ ticket.event.title }}
+  Bilet Kodu: {{ ticket.ticket_code }}
+  Tarih: {{ ticket.event.date|date:"d M Y" }}, {{ ticket.event.time|time:"H:i" }}
+  Mekan: {{ ticket.event.location }}
+--------------------------------------------------
+{% endfor %}
+
+Biletlerini profilindeki "Biletlerim" menüsünden her zaman görüntüleyebilirsin:
+{{ site_url }}/biletler/biletlerim/
+
+Sevgilerle,
+SOLD-OUT Ekibi

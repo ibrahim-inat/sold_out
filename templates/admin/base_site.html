@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}" style="display: flex; items-center: center; gap: 10px;">
+        <span style="font-weight: 900; letter-spacing: 2px;">SOLD-OUT</span>
+    </a>
+</h1>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    /* SOLD-OUT Custom Admin Branding */
+    :root {
+        --primary: #6D28D9; /* purple-700 */
+        --secondary: #4C1D95; /* purple-900 */
+        --accent: #F59E0B; /* yellow-500 */
+        --primary-fg: #fff;
+    }
+    
+    /* Header Background */
+    #header {
+        background-color: var(--primary);
+        background-image: linear-gradient(135deg, #6D28D9, #4C1D95);
+    }
+    
+    /* Buttons */
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background: var(--primary);
+        border-radius: 6px;
+        transition: background 0.2s ease-in-out;
+    }
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, a.button:hover {
+        background: var(--secondary);
+    }
+    .button.default, input[type=submit].default, .submit-row input.default {
+        background: var(--accent);
+        color: #fff;
+        border-color: #D97706;
+    }
+    .button.default:hover, input[type=submit].default:hover, .submit-row input.default:hover {
+        background: #D97706;
+    }
+    
+    /* Module Headers */
+    div.breadcrumbs {
+        background: #F3F4F6;
+        color: #4B5563;
+        border-bottom: 1px solid #E5E7EB;
+    }
+    div.breadcrumbs a {
+        color: var(--primary);
+        font-weight: bold;
+    }
+    div.breadcrumbs a:hover {
+        color: var(--secondary);
+    }
+    .module h2, .module caption, .inline-group h2 {
+        background: var(--primary);
+        border-radius: 4px 4px 0 0;
+    }
+    
+    /* Links */
+    a:link, a:visited {
+        color: var(--primary);
+    }
+    a:hover {
+        color: var(--secondary);
+    }
+    
+    /* Add rounded corners */
+    #content-main form {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border: none;
+    }
+    
+    /* Navigation Active State */
+    #nav-sidebar .current-app .section:link, #nav-sidebar .current-app .section:visited {
+        color: var(--primary);
+    }
+</style>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

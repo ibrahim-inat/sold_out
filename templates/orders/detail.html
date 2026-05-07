@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Sipariş Detayı - {{ order.order_number }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="mb-6 flex items-center justify-between">
+        <h1 class="text-2xl font-bold text-gray-900">Sipariş: {{ order.order_number }}</h1>
+        <a href="{% url 'orders:list' %}" class="text-indigo-600 hover:text-indigo-700 font-medium text-sm flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Siparişlerime Dön
+        </a>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Sipariş Bilgileri</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex justify-between">
+                        <span class="text-gray-500">Tarih:</span>
+                        <span class="font-medium text-gray-900">{{ order.created_at|date:"d F Y, H:i" }}</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-gray-500">Durum:</span>
+                        {% if order.status == 'PAID' %}
+                            <span class="font-bold text-green-600">Ödendi</span>
+                        {% elif order.status == 'PENDING' %}
+                            <span class="font-bold text-yellow-600">Bekliyor</span>
+                        {% else %}
+                            <span class="font-bold text-red-600">Başarısız</span>
+                        {% endif %}
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-gray-500">Toplam Tutar:</span>
+                        <span class="font-bold text-gray-900">₺{{ order.total_price }}</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Ödeme Bilgileri</h3>
+                {% if hasattr(order, 'payment') %}
+                <ul class="space-y-3 text-sm">
+                    <li class="flex justify-between">
+                        <span class="text-gray-500">Yöntem:</span>
+                        <span class="font-medium text-gray-900">Kredi Kartı ({{ order.payment.card_brand }})</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-gray-500">Kart Numarası:</span>
+                        <span class="font-medium text-gray-900">**** **** **** {{ order.payment.card_last4 }}</span>
+                    </li>
+                    <li class="flex justify-between">
+                        <span class="text-gray-500">İşlem No:</span>
+                        <span class="font-medium text-gray-500 text-xs truncate max-w-[150px]" title="{{ order.payment.transaction_id }}">{{ order.payment.transaction_id|default:"-" }}</span>
+                    </li>
+                </ul>
+                {% else %}
+                <p class="text-sm text-gray-500">Ödeme bilgisi bulunmuyor.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Biletler</h3>
+        
+        <div class="space-y-4">
+            {% for item in order.items.all %}
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center py-2 {% if not forloop.last %}border-b border-gray-50{% endif %}">
+                <div class="flex-1">
+                    <p class="font-bold text-gray-900 text-base mb-1">{{ item.event.title }}</p>
+                    <div class="flex items-center text-xs text-gray-500 gap-3">
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> {{ item.event.date|date:"d M Y" }}</span>
+                        <span class="flex items-center"><svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg> {{ item.event.location }}</span>
+                    </div>
+                </div>
+                <div class="mt-2 sm:mt-0 text-right">
+                    <p class="text-sm text-gray-600">{{ item.quantity }} x ₺{{ item.unit_price }}</p>
+                    <p class="font-bold text-indigo-600">₺{{ item.subtotal }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="mt-6 flex justify-end">
+            <div class="text-right">
+                <p class="text-sm text-gray-500 mb-1">Genel Toplam</p>
+                <p class="text-2xl font-black text-gray-900">₺{{ order.total_price }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

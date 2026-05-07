@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sipariş Onayı - {{ order_number }}</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f5; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .header { background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 40px 20px; text-align: center; color: white; }
+        .header h1 { margin: 0; font-size: 24px; font-weight: 800; }
+        .content { padding: 40px 30px; color: #374151; line-height: 1.6; }
+        .content p { margin-bottom: 20px; font-size: 16px; }
+        .order-box { background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; margin-bottom: 30px; text-align: center; }
+        .order-box p { margin: 0; font-size: 14px; color: #6b7280; }
+        .order-box h2 { margin: 5px 0 0 0; font-size: 22px; color: #111827; letter-spacing: 1px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+        th { background-color: #f3f4f6; color: #4b5563; font-size: 12px; text-transform: uppercase; padding: 12px; text-align: left; }
+        td { padding: 16px 12px; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
+        .ticket-code { font-family: monospace; font-weight: bold; background: #e0e7ff; color: #4f46e5; padding: 4px 8px; border-radius: 4px; font-size: 13px; }
+        
+        .btn { display: inline-block; padding: 14px 28px; background-color: #10b981; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; margin-top: 10px; }
+        .footer { background-color: #f9fafb; padding: 20px; text-align: center; color: #9ca3af; font-size: 13px; border-top: 1px solid #f3f4f6; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Siparişiniz Başarıyla Onaylandı!</h1>
+        </div>
+        <div class="content">
+            <p>Merhaba <strong>{{ full_name }}</strong>,</p>
+            <p>Siparişin başarıyla alındı ve ödemen onaylandı. Biletlerini aşağıda görebilirsin.</p>
+            
+            <div class="order-box">
+                <p>SİPARİŞ NUMARASI</p>
+                <h2>{{ order_number }}</h2>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bilet Kodu</th>
+                        <th>Etkinlik</th>
+                        <th>Tarih</th>
+                        <th>Mekan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td><span class="ticket-code">{{ ticket.ticket_code }}</span></td>
+                        <td><strong>{{ ticket.event.title }}</strong></td>
+                        <td>{{ ticket.event.date|date:"d M Y" }}<br><span style="color: #6b7280; font-size: 12px;">{{ ticket.event.time|time:"H:i" }}</span></td>
+                        <td>{{ ticket.event.location }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div style="text-align: right; margin-bottom: 30px;">
+                <p style="margin: 0; color: #6b7280; font-size: 14px;">Toplam Tutar:</p>
+                <h3 style="margin: 0; font-size: 20px; color: #111827;">₺{{ order.total_price }}</h3>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{ site_url }}/biletler/biletlerim/" class="btn">Biletlerimi Görüntüle</a>
+            </div>
+            
+            <p>Biletlerini profilindeki "Biletlerim" menüsünden her zaman görüntüleyebilir ve indirebilirsin.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 SOLD-OUT. Tüm hakları saklıdır.</p>
+        </div>
+    </div>
+</body>
+</html>

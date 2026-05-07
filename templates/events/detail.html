@@ -1,0 +1,306 @@
+{% extends "base.html" %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+<article class="min-h-screen bg-gray-50">
+
+  {# ── Hero alanı ── #}
+  <div class="relative h-72 sm:h-96 bg-ticket-gradient overflow-hidden">
+    {% if event.cover_image %}
+      <img src="{{ event.cover_image.url }}" alt="{{ event.title }}"
+           class="absolute inset-0 w-full h-full object-cover opacity-60">
+    {% endif %}
+    <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/30 to-transparent"></div>
+
+    {# Dekoratif blob #}
+    <div class="absolute top-0 right-0 w-64 h-64 rounded-full bg-primary-500/20 blur-3xl pointer-events-none"></div>
+
+    <div class="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
+      <div class="container mx-auto">
+        {# Kategori rozeti #}
+        <a href="{% url 'events:list' %}?category={{ event.category.slug }}"
+           class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold
+                  bg-white/20 backdrop-blur-sm text-white ring-1 ring-white/30 mb-3 hover:bg-white/30 transition-colors">
+          {{ event.category.icon }} {{ event.category.name }}
+        </a>
+
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-white leading-tight mb-3">{{ event.title }}</h1>
+
+        <div class="flex flex-wrap items-center gap-4 text-sm text-white/80">
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            {{ event.date|date:"d F Y" }}, {{ event.time|time:"H:i" }}
+          </span>
+          <span class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            </svg>
+            {{ event.location }}, {{ event.city }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── İçerik ── #}
+  <div class="container mx-auto px-4 sm:px-6 py-10">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      {# ── Sol kolon: Açıklama & Organizatör ── #}
+      <div class="flex-1 min-w-0 space-y-6">
+
+        {# Açıklama #}
+        <section class="bg-white rounded-2xl ring-1 ring-gray-200/80 p-6">
+          <h2 class="text-lg font-bold text-gray-900 mb-4">Etkinlik Hakkında</h2>
+          <div class="text-gray-600 text-sm leading-relaxed prose prose-sm max-w-none">
+            {{ event.description|linebreaks }}
+          </div>
+        </section>
+
+        {# Konum #}
+        <section class="bg-white rounded-2xl ring-1 ring-gray-200/80 p-6">
+          <h2 class="text-lg font-bold text-gray-900 mb-3">Konum</h2>
+          <div class="flex items-start gap-3">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-100 text-primary-600 shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              </svg>
+            </span>
+            <div>
+              <p class="font-semibold text-gray-900">{{ event.location }}</p>
+              <p class="text-sm text-gray-500">{{ event.city }}</p>
+            </div>
+          </div>
+        </section>
+
+        {# Organizatör #}
+        {% if event.organizer %}
+        <section class="bg-white rounded-2xl ring-1 ring-gray-200/80 p-6">
+          <h2 class="text-lg font-bold text-gray-900 mb-3">Organizatör</h2>
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-accent-100 text-accent-600 text-lg font-bold">
+              {{ event.organizer.organization_name|slice:":1" }}
+            </span>
+            <div>
+              <p class="font-semibold text-gray-900">{{ event.organizer.organization_name }}</p>
+              {% if event.organizer.is_verified %}
+                <span class="inline-flex items-center gap-1 text-xs text-green-600 font-medium">
+                  <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  Doğrulanmış Organizatör
+                </span>
+              {% endif %}
+            </div>
+          </div>
+        </section>
+        {% endif %}
+
+      </div>
+
+      {# ── Sağ kolon: Bilet satın alma ── #}
+      <aside class="lg:w-80 shrink-0">
+        <div class="bg-white rounded-2xl ring-1 ring-gray-200/80 shadow-lg p-6 sticky top-20">
+
+          {# Fiyat #}
+          <div class="mb-5">
+            <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-1">Bilet Fiyatı</p>
+            <p class="text-4xl font-extrabold text-primary-700">
+              {% if event.price == 0 %}Ücretsiz{% else %}₺{{ event.price }}{% endif %}
+            </p>
+          </div>
+
+          {# Kalan bilet #}
+          <div class="mb-5">
+            {% if event.is_sold_out %}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-bold bg-red-100 text-red-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Biletler Tükendi
+              </span>
+            {% elif event.available_tickets <= 20 %}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-bold bg-orange-100 text-orange-700">
+                Son {{ event.available_tickets }} bilet!
+              </span>
+            {% else %}
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-semibold bg-green-100 text-green-700">
+                {{ event.available_tickets }} bilet mevcut
+              </span>
+            {% endif %}
+          </div>
+
+          {# Sepete Ekle formu #}
+          {% if not event.is_sold_out and not event.is_past %}
+          <form method="post" action="{% url 'cart:add' %}" id="add-to-cart-form">
+            {% csrf_token %}
+            <input type="hidden" name="event_id" value="{{ event.pk }}">
+
+            <div class="mb-4">
+              <label for="quantity" class="block text-sm font-semibold text-gray-700 mb-1.5">Bilet Adedi</label>
+              <select name="quantity" id="quantity" class="form-input w-full">
+                {% for i in "1234567890" %}
+                  {% if forloop.counter <= 10 and forloop.counter <= event.available_tickets %}
+                    <option value="{{ forloop.counter }}">{{ forloop.counter }} Bilet</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+
+            <button type="submit" id="btn-add-to-cart"
+                    class="group w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl
+                           bg-accent-500 hover:bg-accent-600 text-white font-bold text-base
+                           shadow-accent hover:shadow-xl
+                           transition-all duration-300 hover:-translate-y-0.5 cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+              Sepete Ekle
+            </button>
+          </form>
+          {% else %}
+          <button disabled
+                  class="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl
+                         bg-gray-200 text-gray-400 font-bold text-base cursor-not-allowed">
+            {% if event.is_past %}Etkinlik Geçti{% else %}Tükendi{% endif %}
+          </button>
+          {% endif %}
+
+          <p class="mt-4 text-xs text-gray-400 text-center">
+            Güvenli ödeme • İptal garantisi yok (MVP)
+          </p>
+        </div>
+      </aside>
+
+    </div>
+
+    {# ── Yorumlar Alanı ── #}
+    <section class="mt-12 bg-white rounded-3xl ring-1 ring-gray-200/80 p-8">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-2xl font-extrabold text-gray-900">Yorumlar</h2>
+          <div class="flex items-center gap-2 mt-1">
+            <span class="text-3xl font-black text-yellow-500">{{ event.average_rating }}</span>
+            <div class="flex text-yellow-400">
+              <!-- Yıldız İkonu Sembolik -->
+              ★
+            </div>
+            <span class="text-sm text-gray-500">({{ event.comment_count }} değerlendirme)</span>
+          </div>
+        </div>
+        
+        {% if user_has_ticket %}
+          <button onclick="document.getElementById('comment-form-container').classList.toggle('hidden')" class="btn bg-indigo-50 text-indigo-700 hover:bg-indigo-100 px-4 py-2 rounded-xl font-bold text-sm">
+            Değerlendirme Yap
+          </button>
+        {% endif %}
+      </div>
+
+      {% if not user.is_authenticated %}
+        <div class="bg-gray-50 p-4 rounded-xl text-center text-gray-500 text-sm mb-8">
+          Yorum yapabilmek için <a href="{% url 'users:login' %}" class="text-indigo-600 font-bold hover:underline">giriş yapmalısınız</a> ve bu etkinlik için bir bilet satın almış olmalısınız.
+        </div>
+      {% elif not user_has_ticket %}
+        <div class="bg-gray-50 p-4 rounded-xl text-center text-gray-500 text-sm mb-8">
+          Sadece bu etkinliğe bilet satın almış kullanıcılar değerlendirme yapabilir.
+        </div>
+      {% else %}
+        <!-- Yorum Formu -->
+        <div id="comment-form-container" class="hidden mb-10 bg-gray-50 p-6 rounded-2xl border border-gray-100">
+          <h3 class="font-bold text-gray-900 mb-4">Puanınız ve Yorumunuz</h3>
+          <form action="{% url 'feedback:add-comment' event.slug %}" method="post">
+            {% csrf_token %}
+            
+            <div class="flex items-center gap-2 mb-4">
+              <span class="text-sm font-semibold text-gray-700">Puan:</span>
+              <div class="flex flex-row-reverse justify-end star-rating">
+                <input type="radio" id="star5" name="rating" value="5" class="peer hidden" required />
+                <label for="star5" class="cursor-pointer text-gray-300 peer-hover:text-yellow-400 peer-checked:text-yellow-500 text-2xl transition-colors">★</label>
+                
+                <input type="radio" id="star4" name="rating" value="4" class="peer hidden" />
+                <label for="star4" class="cursor-pointer text-gray-300 peer-hover:text-yellow-400 peer-checked:text-yellow-500 text-2xl transition-colors">★</label>
+                
+                <input type="radio" id="star3" name="rating" value="3" class="peer hidden" />
+                <label for="star3" class="cursor-pointer text-gray-300 peer-hover:text-yellow-400 peer-checked:text-yellow-500 text-2xl transition-colors">★</label>
+                
+                <input type="radio" id="star2" name="rating" value="2" class="peer hidden" />
+                <label for="star2" class="cursor-pointer text-gray-300 peer-hover:text-yellow-400 peer-checked:text-yellow-500 text-2xl transition-colors">★</label>
+                
+                <input type="radio" id="star1" name="rating" value="1" class="peer hidden" />
+                <label for="star1" class="cursor-pointer text-gray-300 peer-hover:text-yellow-400 peer-checked:text-yellow-500 text-2xl transition-colors">★</label>
+              </div>
+              <style>
+                .star-rating label:hover,
+                .star-rating label:hover ~ label,
+                .star-rating input:checked ~ label {
+                  color: #EAB308; /* Tailwind yellow-500 */
+                }
+              </style>
+            </div>
+            
+            <textarea name="comment" rows="4" class="w-full rounded-xl border-gray-200 focus:border-indigo-500 focus:ring-indigo-500 mb-4 text-sm p-3" placeholder="Etkinlik nasıldı? Düşüncelerinizi paylaşın..." required></textarea>
+            
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-xl transition-colors">
+              Gönder
+            </button>
+          </form>
+        </div>
+      {% endif %}
+
+      <div class="space-y-6">
+        {% for comment in event.comments.all %}
+          {% if comment.is_approved %}
+          <div class="flex gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors">
+            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold text-lg shrink-0">
+              {{ comment.user.username|slice:":1"|upper }}
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between mb-1">
+                <h4 class="font-bold text-gray-900">{{ comment.user.username }}</h4>
+                <span class="text-xs text-gray-500">{{ comment.created_at|date:"d M Y" }}</span>
+              </div>
+              <div class="flex text-yellow-500 text-sm mb-2">
+                {% for i in "12345" %}
+                  {% if forloop.counter <= comment.rating %}★{% else %}<span class="text-gray-300">★</span>{% endif %}
+                {% endfor %}
+              </div>
+              <p class="text-gray-700 text-sm leading-relaxed">{{ comment.comment }}</p>
+              
+              {% if user == comment.user %}
+              <form action="{% url 'feedback:delete-comment' comment.id %}" method="post" class="mt-2 text-right">
+                {% csrf_token %}
+                <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-semibold" onclick="return confirm('Yorumunuzu silmek istediğinize emin misiniz?');">Sil</button>
+              </form>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        {% empty %}
+          <div class="text-center py-8 text-gray-500">
+            Henüz yorum yapılmamış. İlk değerlendiren siz olun!
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    {# ── İlgili etkinlikler ── #}
+    {% if related_events %}
+    <section class="mt-12">
+      <h2 class="text-xl font-extrabold text-gray-900 mb-6">
+        Benzer Etkinlikler
+        <span class="text-gray-400 font-normal text-base ml-2">{{ event.category.name }}</span>
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {% for related in related_events %}
+          {% include "events/partials/_event_card.html" with event=related %}
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+  </div>
+</article>
+{% endblock %}

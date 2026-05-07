@@ -1,0 +1,15 @@
+# Core
+Django>=5.2,<5.3
+psycopg[binary]>=3.1,<4.0
+
+# Environment variables
+python-decouple>=3.8,<4.0
+
+# Tailwind CSS integration
+django-tailwind-cli>=4.0,<5.0
+
+# Images
+Pillow>=10.0,<11.0
+
+# Static files
+whitenoise>=6.0,<7.0

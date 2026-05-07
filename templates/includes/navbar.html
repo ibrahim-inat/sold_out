@@ -1,0 +1,31 @@
+<nav class="bg-white shadow-sm border-b border-gray-200">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <a href="/" class="text-xl font-bold text-indigo-600">SOLD-OUT</a>
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'events:list' %}" class="text-gray-600 hover:text-indigo-600">Etkinlikler</a>
+                <a href="{% url 'cart:detail' %}" class="text-gray-600 hover:text-indigo-600 relative group flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    {% if cart_item_count and cart_item_count > 0 %}
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                        {{ cart_item_count }}
+                    </span>
+                    {% endif %}
+                </a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'tickets:my_tickets' %}" class="text-gray-600 hover:text-indigo-600">Biletlerim</a>
+                    <a href="{% url 'users:profile' %}" class="text-gray-600 hover:text-indigo-600">Profilim</a>
+                    <form method="post" action="{% url 'users:logout' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="text-gray-600 hover:text-red-600">Çıkış</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'users:login' %}" class="text-gray-600 hover:text-indigo-600">Giriş</a>
+                    <a href="{% url 'users:register' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Kayıt Ol</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Siparişlerim{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-5xl">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Siparişlerim</h1>
+
+    {% if orders %}
+        <div class="space-y-6">
+            {% for order in orders %}
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <h3 class="font-bold text-lg text-gray-900">{{ order.order_number }}</h3>
+                        {% if order.status == 'PAID' %}
+                            <span class="px-2.5 py-1 text-xs font-bold bg-green-100 text-green-700 rounded-lg">Ödendi</span>
+                        {% elif order.status == 'PENDING' %}
+                            <span class="px-2.5 py-1 text-xs font-bold bg-yellow-100 text-yellow-700 rounded-lg">Bekliyor</span>
+                        {% else %}
+                            <span class="px-2.5 py-1 text-xs font-bold bg-red-100 text-red-700 rounded-lg">Başarısız</span>
+                        {% endif %}
+                    </div>
+                    <p class="text-sm text-gray-500">{{ order.created_at|date:"d F Y, H:i" }}</p>
+                    <p class="text-sm text-gray-500 mt-1">{{ order.items.count }} etkinlik, toplam ₺{{ order.total_price }}</p>
+                </div>
+                <div>
+                    <a href="{% url 'orders:detail' order.order_number %}" class="inline-flex items-center px-4 py-2 border border-gray-200 text-sm font-bold rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                        Detayları Gör
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {# Sayfalama #}
+        {% if is_paginated %}
+        <div class="mt-8 flex justify-center">
+            <nav class="inline-flex rounded-md shadow-sm -space-x-px">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Önceki</a>
+                {% endif %}
+                <span class="px-4 py-2 border border-gray-300 bg-indigo-50 text-sm font-medium text-indigo-600">
+                    Sayfa {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">Sonraki</a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+    {% else %}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+            <p class="text-gray-500 mb-4">Henüz hiç siparişiniz bulunmuyor.</p>
+            <a href="{% url 'events:list' %}" class="text-indigo-600 font-bold hover:underline">Etkinlikleri Keşfet</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

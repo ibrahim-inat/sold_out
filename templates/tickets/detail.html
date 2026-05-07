@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Bilet Detayı - {{ ticket.ticket_code }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8 max-w-3xl print:p-0 print:m-0">
+    <!-- Navbar/Geri Dönüş (Print'te gizlenir) -->
+    <div class="mb-6 flex items-center justify-between print:hidden">
+        <a href="{% url 'tickets:list' %}" class="text-indigo-600 hover:text-indigo-700 font-medium text-sm flex items-center bg-indigo-50 px-4 py-2 rounded-xl">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Biletlerime Dön
+        </a>
+        <button onclick="window.print()" class="inline-flex items-center px-4 py-2 bg-gray-900 text-white rounded-xl text-sm font-bold shadow-md hover:bg-gray-800 transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            Bileti Yazdır
+        </button>
+    </div>
+
+    <!-- Bilet Kartı (Print-Friendly) -->
+    <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative print:shadow-none print:border-2 print:border-black print:rounded-none">
+        
+        <!-- Üst Bant -->
+        <div class="bg-ticket-gradient h-3 w-full print:bg-black print:h-6"></div>
+
+        <div class="p-8 sm:p-12 text-center border-b-2 border-dashed border-gray-200 print:border-black relative">
+            <!-- Koparma Delikleri (Görsel) -->
+            <div class="absolute left-[-16px] bottom-[-16px] w-8 h-8 bg-gray-50 rounded-full print:hidden"></div>
+            <div class="absolute right-[-16px] bottom-[-16px] w-8 h-8 bg-gray-50 rounded-full print:hidden"></div>
+
+            <p class="text-sm font-bold text-indigo-600 uppercase tracking-widest mb-2 print:text-black">Giriş Bileti</p>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6">{{ ticket.event.title }}</h1>
+            
+            <div class="inline-block bg-gray-50 rounded-2xl p-6 border-2 border-gray-200 print:border-black print:bg-white w-full max-w-sm">
+                <p class="text-sm text-gray-500 mb-2 uppercase tracking-wider font-semibold print:text-black">Bilet Kodu</p>
+                <p class="font-mono text-3xl font-black text-gray-900 tracking-[0.2em]">{{ ticket.ticket_code }}</p>
+            </div>
+            
+            {% if ticket.is_used %}
+            <div class="mt-6 inline-block transform rotate-12 absolute right-10 top-10 opacity-70">
+                <div class="border-4 border-red-500 rounded-lg px-4 py-2 text-red-500 font-black text-2xl uppercase tracking-widest print:text-black print:border-black">
+                    KULLANILDI
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="p-8 sm:p-12 bg-gray-50 print:bg-white">
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wider mb-1 print:text-gray-800">Tarih ve Saat</p>
+                    <p class="font-bold text-gray-900 text-lg print:text-black">{{ ticket.event.date|date:"d F Y" }}</p>
+                    <p class="font-bold text-gray-900 text-lg print:text-black">{{ ticket.event.time|time:"H:i" }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wider mb-1 print:text-gray-800">Mekan</p>
+                    <p class="font-bold text-gray-900 text-lg print:text-black">{{ ticket.event.location }}</p>
+                    <p class="text-gray-600 print:text-black">{{ ticket.event.city }}</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-8 pt-6 border-t border-gray-200 print:border-black">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wider mb-1 print:text-gray-800">Bilet Sahibi</p>
+                    <p class="font-bold text-gray-900 text-lg print:text-black">{{ ticket.holder_name }}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500 uppercase tracking-wider mb-1 print:text-gray-800">Sipariş No</p>
+                    <p class="font-bold text-gray-900 text-lg print:text-black">{{ ticket.order.order_number }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alt Barkod Görseli (Süs için) -->
+        <div class="px-12 py-6 bg-white border-t-2 border-dashed border-gray-200 text-center print:border-black">
+            <p class="font-barcode text-6xl text-gray-800 print:text-black opacity-80" style="font-family: 'Libre Barcode 39', monospace;">*{{ ticket.ticket_code }}*</p>
+            <p class="text-xs text-gray-400 mt-2">Bu bilet kişiye özeldir. Devredilemez.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Print Styles -->
+<style>
+@media print {
+    body { background-color: white; }
+    nav, footer { display: none !important; }
+    @page { margin: 0; size: auto; }
+}
+</style>
+<!-- Barkod Fontu İçin -->
+<link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap" rel="stylesheet">
+{% endblock %}

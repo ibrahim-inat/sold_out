@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* Şablon kaynakları — Tailwind v4 JIT taraması için */
+@source "../../templates/**/*.html";
+@source "../../apps/**/templates/**/*.html";
+
+/* ──────────────────────────────────────────────
+   SOLD-OUT Tema Değişkenleri (Tailwind v4 @theme)
+   ────────────────────────────────────────────── */
+@theme {
+  /* Primary — Mor (#6D28D9 temelli) */
+  --color-primary-50:  #F5F3FF;
+  --color-primary-100: #EDE9FE;
+  --color-primary-200: #DDD6FE;
+  --color-primary-300: #C4B5FD;
+  --color-primary-400: #A78BFA;
+  --color-primary-500: #8B5CF6;
+  --color-primary-600: #7C3AED;
+  --color-primary-700: #6D28D9; /* ana mor */
+  --color-primary-800: #5B21B6;
+  --color-primary-900: #4C1D95;
+  --color-primary-950: #2E1065;
+
+  /* Accent — Amber (#F59E0B temelli) */
+  --color-accent-50:  #FFFBEB;
+  --color-accent-100: #FEF3C7;
+  --color-accent-200: #FDE68A;
+  --color-accent-300: #FCD34D;
+  --color-accent-400: #FBBF24;
+  --color-accent-500: #F59E0B; /* amber accent */
+  --color-accent-600: #D97706;
+  --color-accent-700: #B45309;
+  --color-accent-800: #92400E;
+
+  /* Tipografi */
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Animasyonlar */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-fade-in: fadeIn 0.4s ease-out forwards;
+  --animate-fade-in-up: fadeInUp 0.5s ease-out forwards;
+  --animate-slide-down: slideDown 0.3s ease-out forwards;
+  --animate-toast-in: toastIn 0.4s ease-out forwards;
+  --animate-toast-out: toastOut 0.35s ease-in forwards;
+  --animate-shimmer: shimmer 2s linear infinite;
+
+  /* Keyframes */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%      { transform: translateY(-12px); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(40px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes toastOut {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(40px); }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+}
+
+/* ──────────────────────────────────────────────
+   Bilet Temalı Utility Class'lar
+   ────────────────────────────────────────────── */
+@layer utilities {
+  /* Gradient arka planlar */
+  .bg-ticket-gradient {
+    background-image: linear-gradient(135deg, #6D28D9 0%, #8B5CF6 50%, #F59E0B 100%);
+  }
+  .bg-ticket-gradient-soft {
+    background-image: linear-gradient(135deg, #EDE9FE 0%, #FEF3C7 50%, #FFFBEB 100%);
+  }
+  .bg-ticket-gradient-dark {
+    background-image: linear-gradient(135deg, #4C1D95 0%, #5B21B6 40%, #7C3AED 100%);
+  }
+  .bg-hero-radial {
+    background-image: radial-gradient(ellipse at top left, rgba(139, 92, 246, 0.30), transparent 55%),
+                      radial-gradient(ellipse at bottom right, rgba(245, 158, 11, 0.25), transparent 50%);
+  }
+
+  /* Gölge efektleri */
+  .shadow-ticket {
+    box-shadow: 0 10px 25px -5px rgba(109, 40, 217, 0.25),
+                0 8px 10px -6px rgba(109, 40, 217, 0.15);
+  }
+  .shadow-ticket-lg {
+    box-shadow: 0 20px 50px -12px rgba(109, 40, 217, 0.30),
+                0 12px 20px -8px rgba(109, 40, 217, 0.20);
+  }
+  .shadow-accent {
+    box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.30),
+                0 8px 10px -6px rgba(245, 158, 11, 0.15);
+  }
+
+  /* Cam efekti (glassmorphism) */
+  .glass {
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .glass-dark {
+    background: rgba(17, 24, 39, 0.70);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Metin gradientleri */
+  .text-gradient {
+    background: linear-gradient(135deg, #6D28D9, #F59E0B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Form input stili */
+  .form-input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid #E5E7EB;
+    background-color: rgba(249, 250, 251, 0.8);
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: #111827;
+    transition: all 0.2s ease;
+  }
+  .form-input::placeholder {
+    color: #9CA3AF;
+  }
+  .form-input:focus {
+    background-color: #fff;
+    border-color: #A78BFA;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+  }
+}
