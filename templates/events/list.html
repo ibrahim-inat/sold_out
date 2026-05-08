@@ -12,8 +12,7 @@
         {% if q %}
           "<span class="text-primary-700">{{ q }}</span>" için arama sonuçları
         {% elif selected_category %}
-          {% for cat in categories %}{% if cat.slug == selected_category %}{{ cat.icon }} {{ cat.name }}{% endif %}{% endfor %}
-          <span class="text-gray-400 font-normal text-lg ml-2">etkinlikleri</span>
+          {% for cat in categories %}{% if cat.slug == selected_category %}{{ cat.icon }} {{ cat.name }}{% endif %}{% endfor %} Etkinlikleri
         {% else %}
           🎫 Tüm Etkinlikler
         {% endif %}

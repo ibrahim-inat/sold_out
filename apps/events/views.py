@@ -38,7 +38,7 @@ class EventListView(ListView):
             )
 
         # Kategori filtresi
-        category_slug = params.get("category", "").strip()
+        category_slug = params.get("category", "").strip() or self.kwargs.get("slug", "")
         if category_slug:
             qs = qs.filter(category__slug=category_slug)
 
@@ -84,7 +84,7 @@ class EventListView(ListView):
         )
         context["current_params"] = self.request.GET
         context["q"] = self.request.GET.get("q", "")
-        context["selected_category"] = self.request.GET.get("category", "")
+        context["selected_category"] = self.request.GET.get("category", "") or self.kwargs.get("slug", "")
         context["selected_city"] = self.request.GET.get("city", "")
         context["selected_sort"] = self.request.GET.get("sort", "date_asc")
         context["date_from"] = self.request.GET.get("date_from", "")

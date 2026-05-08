@@ -10,7 +10,7 @@ from django.conf.urls.static import static
 # Admin Site Özelleştirme
 admin.site.site_header = "SOLD-OUT Yönetim Paneli"
 admin.site.site_title = "SOLD-OUT Admin"
-admin.site.index_title = "Hoş geldin Adar 👋"
+admin.site.index_title = "Hoşgeldin Admin 👋"
 
 urlpatterns = [
     path("admin/", admin.site.urls),

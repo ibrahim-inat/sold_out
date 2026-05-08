@@ -101,9 +101,17 @@ class CustomLoginForm(AuthenticationForm):
 class ProfileForm(forms.ModelForm):
     """Profil bilgilerini güncelleme formu."""
 
+    email = forms.EmailField(
+        required=True,
+        label="E-posta Adresi",
+        widget=forms.EmailInput(
+            attrs={"placeholder": "ornek@email.com", "class": "form-input"}
+        )
+    )
+
     class Meta:
         model = Profile
-        fields = ("full_name", "phone", "birth_date", "city", "bio", "profile_photo")
+        fields = ("full_name", "email", "phone", "birth_date", "city", "bio", "profile_photo")
         labels = {
             "full_name": "Ad Soyad",
             "phone": "Telefon",
@@ -120,6 +128,7 @@ class ProfileForm(forms.ModelForm):
                 attrs={"placeholder": "+90 5xx xxx xx xx", "class": "form-input"}
             ),
             "birth_date": forms.DateInput(
+                format="%Y-%m-%d",
                 attrs={"type": "date", "class": "form-input"}
             ),
             "city": forms.TextInput(
@@ -133,3 +142,26 @@ class ProfileForm(forms.ModelForm):
                 }
             ),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and hasattr(self.instance, 'user') and self.instance.user:
+            self.fields["email"].initial = self.instance.user.email
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email", "").strip().lower()
+        if self.instance and hasattr(self.instance, 'user') and self.instance.user:
+            if User.objects.filter(email__iexact=email).exclude(id=self.instance.user.id).exists():
+                raise forms.ValidationError("Bu e-posta adresi başka bir hesap tarafından kullanılıyor.")
+        return email
+
+    def save(self, commit=True):
+        profile = super().save(commit=False)
+        email = self.cleaned_data.get("email")
+        if email and profile.user:
+            profile.user.email = email
+            if commit:
+                profile.user.save()
+        if commit:
+            profile.save()
+        return profile
